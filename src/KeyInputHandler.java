@@ -28,11 +28,11 @@ public class KeyInputHandler implements KeyListener
         }
         if(code == KeyEvent.VK_S)
         {
-            rightPressed = true;
+            downPressed = true;
         }
         if(code == KeyEvent.VK_D)
         {
-            downPressed = true;
+            rightPressed = true;
         }
     }
 
@@ -51,11 +51,11 @@ public class KeyInputHandler implements KeyListener
         }
         if(code == KeyEvent.VK_S)
         {
-            rightPressed = false;
+            downPressed = false;
         }
         if(code == KeyEvent.VK_D)
         {
-            downPressed = false;
+            rightPressed = false;
         }
     }
     
