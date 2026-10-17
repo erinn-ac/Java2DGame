@@ -1,8 +1,9 @@
-package scr;
+package src;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.JPanel; 
 
 public class GamePanel extends JPanel implements Runnable {
@@ -17,11 +18,14 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenHeight = tileSize * maxCol;
     
     Thread gameThread; //when the game thread is started, GamePanel's run method is called
+    KeyInputHandler keyIH = new KeyInputHandler();
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenHeight, screenWidth));
         this.setBackground(new Color(157,199,255));
         this.setDoubleBuffered(true); //helds rendering performance
+        this.addKeyListener(keyIH);
+        this.setFocusable(true);
         
 
     }
@@ -38,8 +42,10 @@ public class GamePanel extends JPanel implements Runnable {
             System.out.println("game loop running");
 
             //UPDATE
+            update();
 
             //DRAW
+            repaint();
         }
 
 
@@ -54,6 +60,12 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
+
+        Graphics2D g2d = (Graphics2D)g;
+
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(100, 100, tileSize, tileSize);
+        g2d.dispose();
 
     }
 
