@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel; 
 import src.entity.*;
+import src.tile.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -18,13 +19,11 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxRow;
     final int screenHeight = tileSize * maxCol;
     
+    TileManager tileMan = new TileManager(this);
     Thread gameThread; //when the game thread is started, GamePanel's run method is called
     KeyInputHandler keyIH = new KeyInputHandler();
     Player player = new Player(this, keyIH);
 
-    //int playerX = 100; //player starting position
-    //int playerY = 100;
-    //int playerSpeed = 5; //the amount the player moves per update 
     int FPS = 60;
 
     public GamePanel() {
@@ -95,7 +94,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2d = (Graphics2D)g;
 
-        player.draw(g2d);
+        tileMan.draw(g2d); //needs to be before player.draw()
+        player.draw(g2d); 
 
         g2d.dispose();
 

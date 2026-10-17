@@ -10,4 +10,7 @@ public class Entity
 
     public BufferedImage front, back, left, right;
     public String direction;
+
+    public int spriteCounter = 0;
+    public int spriteNum = 1;
 }

@@ -3,7 +3,7 @@ package src.entity;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.imageio.*;
+import javax.imageio.ImageIO;
 import src.main.*;
 
 public class Player extends Entity{
@@ -44,19 +44,37 @@ public class Player extends Entity{
          if(keyIH.upPressed == true) {
             direction = "back";
             y -= speed;
+            spriteCounter++;
             //update direction here if want different image displayed 
         }
         else if(keyIH.downPressed == true) {
             direction = "front";
             y += speed;
+            spriteCounter++;
         }
         else if(keyIH.leftPressed == true) {
             direction = "left";
             x -= speed;
+            spriteCounter++;
         }
         else if(keyIH.rightPressed == true) {
             direction = "right";
             x += speed;
+            spriteCounter++;
+        }
+
+       
+        if(spriteCounter > 15) //only switches every 15 frames (otherwise it would be instantaneous)
+        {
+            if(spriteNum == 1)
+            {
+                spriteNum = 2;
+            }
+            else if(spriteNum == 2)
+            {
+                spriteNum = 1;
+            }
+            spriteCounter = 0;
         }
     }
 
@@ -65,16 +83,44 @@ public class Player extends Entity{
         BufferedImage image = null;
         switch(direction) {
             case "front":
-                image = front;
+                if(spriteNum == 1)
+                {
+                    image = front;
+                }
+                else if(spriteNum == 2)
+                {
+                    image = front; //this will be updated to another image so the character looks like it is actually moving in the future (i just haven't drawn it yet)
+                }
                 break;
             case "back":
-                image = back;
+                if(spriteNum == 1)
+                {
+                    image = back;
+                }
+                else if(spriteNum == 2)
+                {
+                    image = back; 
+                }
                 break;
             case "right":
-                image = right;
+                if(spriteNum == 1)
+                {
+                    image = right;
+                }
+                else if(spriteNum == 2)
+                {
+                    image = right; 
+                }
                 break;
             case "left":
-                image = left;
+                if(spriteNum == 1)
+                {
+                    image = left;
+                }
+                else if(spriteNum == 2)
+                {
+                    image = left; 
+                }
                 break;
         }
 
