@@ -1,7 +1,10 @@
 package src.tile;
 
 import java.awt.Graphics2D;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 import src.main.*;
 
@@ -9,13 +12,48 @@ public class TileManager
 {
     GamePanel gp;
     Tile[] tile;
+    int[][] mapTileNum;
 
     public TileManager(GamePanel gp)
     {
         this.gp = gp;
         tile = new Tile[10];
+        mapTileNum = new int[gp.maxCol][gp.maxRow];
+
 
         getTileImages();
+        loadMap("map1.txt");
+    }
+
+    public void loadMap(String mapFileName) {
+        try {
+            InputStream  inpS = getClass().getResourceAsStream("../../maps/"+mapFileName);
+            BufferedReader bufR = new BufferedReader(new InputStreamReader(inpS));
+
+            int col = 0;
+            int row = 0;
+
+            while (col < gp.maxCol && row < gp.maxRow) {
+                String line = bufR.readLine();
+                
+                while(col < gp.maxCol)
+                {
+                    String numbers[] = line.split("");
+                    int num = Integer.parseInt(numbers[col]);
+
+                    mapTileNum[col][row] = num;
+                    col++;
+                }
+
+                col=0; 
+                row++;
+                
+            }
+
+            bufR.close();
+            
+        } catch (Exception e) {
+        }
     }
 
     public void getTileImages() {
@@ -31,7 +69,30 @@ public class TileManager
 
     public void draw(Graphics2D g2d)
     {
-        g2d.drawImage(tile[0].image, 0, 0, gp.tileSize, gp.tileSize, null);
-        g2d.drawImage(tile[0].image, 48, 0, gp.tileSize, gp.tileSize, null);
+        
+        
+
+        int col = 0;
+        int row = 0;
+        int x = 0;
+        int y = 0;
+        int tileToDraw = 0;
+
+        while(col < gp.maxCol && row < gp.maxRow)
+        {
+            tileToDraw = mapTileNum[col][row];
+            g2d.drawImage(tile[tileToDraw].image, x, y, gp.tileSize, gp.tileSize, null);
+            x+=gp.tileSize;
+            col++;
+            
+
+            if(col == gp.maxCol)
+            {
+                col = 0;
+                x= 0;
+                row++;
+                y+=gp.tileSize;
+            }
+        }
     }
 }
