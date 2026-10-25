@@ -16,18 +16,26 @@ public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = ogTileSize * scale;
     public final int maxCol = 16;
     public final int maxRow = 12;
-    final int screenWidth = tileSize * maxRow;
-    final int screenHeight = tileSize * maxCol;
-    
+    public final int screenWidth = tileSize * maxCol;
+    public final int screenHeight = tileSize * maxRow;
+
+    //world settings
+    public final int maxWorldCol = 57;
+    public final int maxWorldRow = 23;
+    public final int worldWidth = maxWorldCol * tileSize;
+    public final int worldheight = maxWorldRow * tileSize;
+
+
+    //frames per second 
     TileManager tileMan = new TileManager(this);
     Thread gameThread; //when the game thread is started, GamePanel's run method is called
     KeyInputHandler keyIH = new KeyInputHandler();
-    Player player = new Player(this, keyIH);
+    public Player player = new Player(this, keyIH);
 
     int FPS = 60;
 
     public GamePanel() {
-        this.setPreferredSize(new Dimension(screenHeight, screenWidth));
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(new Color(157,199,255));
         this.setDoubleBuffered(true); //helds rendering performance
         this.addKeyListener(keyIH);

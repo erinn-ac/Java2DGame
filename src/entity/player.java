@@ -9,11 +9,16 @@ import src.main.*;
 public class Player extends Entity{
     GamePanel gp;
     KeyInputHandler keyIH;
+    public final int screenX;
+    public final int screenY;
 
     public Player(GamePanel gp, KeyInputHandler keyIH)
     {
         this.gp = gp;
         this.keyIH = keyIH;
+
+        screenX = gp.screenWidth / 2 - (gp.tileSize /2); //this puts the image in the actual centre of the screen
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
         setDefaultValues();
         getPlayerImages();
@@ -34,8 +39,8 @@ public class Player extends Entity{
 
     public void setDefaultValues()
     {
-        x = 100;
-        y = 100;
+        worldX = 10 * gp.tileSize;
+        worldY = 10 * gp.tileSize;
         speed = 5;
         direction = "front";
     }
@@ -43,23 +48,23 @@ public class Player extends Entity{
     public void update() {
          if(keyIH.upPressed == true) {
             direction = "back";
-            y -= speed;
+            worldY -= speed;
             spriteCounter++;
             //update direction here if want different image displayed 
         }
         else if(keyIH.downPressed == true) {
             direction = "front";
-            y += speed;
+            worldY += speed;
             spriteCounter++;
         }
         else if(keyIH.leftPressed == true) {
             direction = "left";
-            x -= speed;
+            worldX -= speed;
             spriteCounter++;
         }
         else if(keyIH.rightPressed == true) {
             direction = "right";
-            x += speed;
+            worldX += speed;
             spriteCounter++;
         }
 
@@ -124,6 +129,6 @@ public class Player extends Entity{
                 break;
         }
 
-        g2d.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2d.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
