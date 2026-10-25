@@ -27,25 +27,26 @@ public class TileManager
 
     public void loadMap(String mapFileName) {
         try {
-            InputStream  inpS = getClass().getResourceAsStream("../../maps/"+mapFileName);
+            InputStream  inpS = getClass().getResourceAsStream("../../res/maps/"+mapFileName);
             BufferedReader bufR = new BufferedReader(new InputStreamReader(inpS));
+            
 
             int col = 0;
             int row = 0;
 
-            while (col < gp.maxCol && row < gp.maxRow) {
+            while (row < gp.maxRow) {
                 String line = bufR.readLine();
                 
                 while(col < gp.maxCol)
                 {
-                    String numbers[] = line.split("");
+                    String numbers[] = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
 
                     mapTileNum[col][row] = num;
                     col++;
                 }
 
-                col=0; 
+                col = 0;
                 row++;
                 
             }
@@ -60,6 +61,9 @@ public class TileManager
         try {
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("../../res/tiles/grass.png"));
+
+            tile[1] = new Tile();
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("../../res/tiles/water.png"));
 
 
         } catch(IOException e) {
@@ -81,6 +85,7 @@ public class TileManager
         while(col < gp.maxCol && row < gp.maxRow)
         {
             tileToDraw = mapTileNum[col][row];
+            
             g2d.drawImage(tile[tileToDraw].image, x, y, gp.tileSize, gp.tileSize, null);
             x+=gp.tileSize;
             col++;
